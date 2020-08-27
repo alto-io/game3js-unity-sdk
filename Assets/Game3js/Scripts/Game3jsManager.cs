@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Game3jsManager : SceneSingleton<Game3jsManager>
 {
-    public ExampleGameManager gameManager; // game3.js : Replace the ExampleGameManager with your equivalent game manager class
+    public UnityGameStateManager gameManager; // game3.js : your game state manager should derive from UnityGameStateManager
     public bool showDebugControls;
 
     public Canvas debugControlCanvas;

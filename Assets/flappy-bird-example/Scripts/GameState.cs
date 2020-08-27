@@ -8,7 +8,9 @@ public enum GameState
 {
     Intro,
     Playing,
-    Dead
+    Dead,
+    Game3jsReady
+
 }
 
 public static class GameStateManager

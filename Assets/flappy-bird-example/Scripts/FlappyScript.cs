@@ -5,13 +5,14 @@ using System.Collections;
 /// Spritesheet for Flappy Bird found here: http://www.spriters-resource.com/mobile_phone/flappybird/sheet/59537/
 /// Audio for Flappy Bird found here: https://www.sounds-resource.com/mobile/flappybird/sound/5309/
 /// </summary>
-public class FlappyScript : MonoBehaviour
+public class FlappyScript : UnityGameStateManager
 {
+    public bool usingGame3js;
 
     public AudioClip FlyAudioClip, DeathAudioClip, ScoredAudioClip;
     public Sprite GetReadySprite;
     public float RotateUpSpeed = 1, RotateDownSpeed = 1;
-    public GameObject IntroGUI, DeathGUI;
+    public GameObject IntroGUI, DeathGUI, Hint;
     public Collider2D restartButtonGameCollider;
     public float VelocityPerJump = 3;
     public float XSpeed = 1;
@@ -20,6 +21,8 @@ public class FlappyScript : MonoBehaviour
     void Start()
     {
 
+        if (usingGame3js)
+            Hint.SetActive(false);
     }
 
     FlappyYAxisTravelState flappyYAxisTravelState;
@@ -29,9 +32,97 @@ public class FlappyScript : MonoBehaviour
         GoingUp, GoingDown
     }
 
+    void Update()
+    {
+        if (usingGame3js)
+        {
+            Game3jsUpdate();
+        }
+        else
+        {
+            NormalUpdate();
+        }
+    }
+
+    // game3.js: override this on your class
+    public override void StartGame3js()
+    {
+        switch (GameStateManager.GameState)
+        {
+            case GameState.Intro:
+                    GameStateManager.GameState = GameState.Game3jsReady;
+                    Hint.SetActive(true);
+                break;
+        }
+    }
+
+    void processGameEnd()
+    {
+        if (usingGame3js)
+        {
+            StopGame3jsFail();
+        }
+    }
+
+    public override void StopGame3jsSuccess()
+    {
+        Game3jsManager.Instance.GameEndSuccess();
+    }
+
+    public override void StopGame3jsFail()
+    {
+        Game3jsManager.Instance.GameEndFail();
+    }
+
+    void Game3jsUpdate()
+    {
+        switch (GameStateManager.GameState)
+        {
+            case GameState.Game3jsReady:
+                MoveBirdOnXAxis();
+                if (WasTouchedOrClicked())
+                {
+                    BoostOnYAxis();
+                    GameStateManager.GameState = GameState.Playing;
+                    IntroGUI.SetActive(false);
+                    ScoreManagerScript.Score = 0;
+                }
+                break;
+
+            case GameState.Playing:
+                MoveBirdOnXAxis();
+                if (WasTouchedOrClicked())
+                {
+                    BoostOnYAxis();
+                }
+                break;
+
+            case GameState.Dead:
+                {
+                    Vector2 contactPoint = Vector2.zero;
+
+                    if (Input.touchCount > 0)
+                        contactPoint = Input.touches[0].position;
+                    if (Input.GetMouseButtonDown(0))
+                        contactPoint = Input.mousePosition;
+
+                    //check if user wants to restart the game
+                    if (restartButtonGameCollider == Physics2D.OverlapPoint
+                        (Camera.main.ScreenToWorldPoint(contactPoint)))
+                    {
+                        GameStateManager.GameState = GameState.Intro;
+                        Application.LoadLevel(Application.loadedLevelName);
+                    }
+                }
+                break;
+
+        }
+
+    }
+
     Vector3 birdRotation = Vector3.zero;
     // Update is called once per frame
-    void Update()
+    void NormalUpdate()
     {
         //handle back key in Windows Phone
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -83,7 +174,7 @@ public class FlappyScript : MonoBehaviour
     void FixedUpdate()
     {
         //just jump up and down on intro screen
-        if (GameStateManager.GameState == GameState.Intro)
+        if (GameStateManager.GameState == GameState.Intro || GameStateManager.GameState == GameState.Game3jsReady)
         {
             if (GetComponent<Rigidbody2D>().velocity.y < -1) //when the speed drops, give a boost
                 GetComponent<Rigidbody2D>().AddForce(new Vector2(0, GetComponent<Rigidbody2D>().mass * 5500 * Time.deltaTime)); //lots of play and stop 
@@ -181,6 +272,8 @@ public class FlappyScript : MonoBehaviour
         GameStateManager.GameState = GameState.Dead;
         DeathGUI.SetActive(true);
         GetComponent<AudioSource>().PlayOneShot(DeathAudioClip);
+
+        processGameEnd();
     }
 
 }
