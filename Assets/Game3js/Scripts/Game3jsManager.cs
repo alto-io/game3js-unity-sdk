@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class Game3jsManager : SceneSingleton<Game3jsManager>
 {
     public ExampleGameManager gameManager; // game3.js : Replace the ExampleGameManager with your equivalent game manager class
+    public bool showDebugControls;
+
+    public Canvas debugControlCanvas;
 
     public GameObject logScrollViewContent;
     public GameObject game3jsStateText;
@@ -32,6 +35,8 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
     // Start is called before the first frame update
     void Start()
     {
+        this.debugControlCanvas.enabled = showDebugControls;
+
         // disable key input to allow login / register functionality
 #if UNITY_WEBGL
         try
