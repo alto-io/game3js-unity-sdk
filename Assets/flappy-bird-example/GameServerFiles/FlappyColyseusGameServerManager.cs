@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ColyseusGameServer : GameServer
+public class FlappyColyseusGameServerManager : GameServerManager
 {
     // Start is called before the first frame update
     void Start()
@@ -19,9 +19,9 @@ public class ColyseusGameServer : GameServer
     }
 
     // game3.js: override this on your class
-    public override bool InitializeGameServer()
+    public override bool ConnectToGameServer()
     {
-        Debug.Log("Initializing!");
+        Debug.Log("Connecting!");
 
         return true;
     }

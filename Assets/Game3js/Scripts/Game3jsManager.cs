@@ -18,7 +18,7 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
     public InputField levelInputField;
     public InputField timeInputField;
 
-    public GameServer gameServer;
+    public GameServerManager gameServerManager;
 
     struct Game3jsEvents
     {
@@ -51,7 +51,7 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
         }
 #endif
 
-        if (gameServer.InitializeGameServer()) // once gameServer is initialized,
+        if (gameServerManager.ConnectToGameServer()) // once gameServer is initialized,
             // inform web app that sdk is ready
             SendEvent(Game3jsEvents.GameReady);
     }
