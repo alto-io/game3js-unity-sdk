@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class Game3jsManager : SceneSingleton<Game3jsManager>
 {
     public UnityGameStateManager gameManager; // game3.js : your game state manager should derive from UnityGameStateManager
+    public GameServerManager gameServerManager; // game3.js : a game server for more secure authoritative game results
+
     public bool showDebugControls;
 
     public Canvas debugControlCanvas;
@@ -18,7 +20,6 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
     public InputField levelInputField;
     public InputField timeInputField;
 
-    public GameServerManager gameServerManager;
 
     struct Game3jsEvents
     {
