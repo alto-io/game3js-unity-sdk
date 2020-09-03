@@ -2336,4 +2336,4 @@ MonoBehaviour:
   messageInputField: {fileID: 6497006617668376122}
   levelInputField: {fileID: 0}
   timeInputField: {fileID: 0}
-  gameServer: {fileID: 0}
+  gameServerManager: {fileID: 0}
