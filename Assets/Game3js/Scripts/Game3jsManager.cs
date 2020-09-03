@@ -18,6 +18,8 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
     public InputField levelInputField;
     public InputField timeInputField;
 
+    public GameServer gameServer;
+
     struct Game3jsEvents
     {
         public const string GameReady = "GameReady";
@@ -32,6 +34,7 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
     [DllImport("__Internal")]
     private static extern void SendEvent(string message);
 
+  
     // Start is called before the first frame update
     void Start()
     {
@@ -46,10 +49,11 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
         {
             
         }
-    #endif
+#endif
 
-        // inform web app that sdk is ready
-        SendEvent(Game3jsEvents.GameReady);
+        if (gameServer.InitializeGameServer()) // once gameServer is initialized,
+            // inform web app that sdk is ready
+            SendEvent(Game3jsEvents.GameReady);
     }
 
 
