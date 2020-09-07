@@ -2,5 +2,5 @@
 
 public abstract class GameServerManager : MonoBehaviour
 {
-    public abstract bool ConnectToGameServer();
+    public abstract void ConnectToGameServer(string endpoint);
 }

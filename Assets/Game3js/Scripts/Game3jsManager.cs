@@ -16,6 +16,7 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
 
     public GameObject logScrollViewContent;
     public Text game3jsStateText;
+    public InputField serverUrlInputField;
 
     public InputField messageInputField;
     public InputField levelInputField;
@@ -27,6 +28,8 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
         public const string GameReady = "GameReady";
         public const string GameEndFail = "GameEndFail";
         public const string GameEndSuccess = "GameEndSuccess";
+        public const string WaitingForGameServer = "WaitingForGameServer";
+        public const string GameRunning = "GameRunning";
 
     }
 
@@ -60,11 +63,15 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
         }
 #endif
 
-        if (gameServerManager == null || gameServerManager.ConnectToGameServer())
+        if (gameServerManager == null)
         {
-            game3jsStateText.text = "Game Ready";
-            game3jsStateText.color = Color.yellow;
-            SendEvent(Game3jsEvents.GameReady);
+            SignalGameReady();
+        }
+        else
+        {
+            game3jsStateText.text = Game3jsEvents.WaitingForGameServer;
+            game3jsStateText.color = Color.cyan;
+            SendEvent(Game3jsEvents.WaitingForGameServer);
         }
     }
 
@@ -75,14 +82,14 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
         
     }
 
-    public void ConsoleLog(string message)
+    public void ConsoleLog(string message, Color messageColor)
     {
         Debug.Log(message);
         DefaultControls.Resources r = new DefaultControls.Resources();
         GameObject NewText = DefaultControls.CreateText(r);
         NewText.AddComponent<LayoutElement>();
         NewText.GetComponent<Text>().text = message;
-        NewText.GetComponent<Text>().color = Color.red;
+        NewText.GetComponent<Text>().color = messageColor;
         NewText.transform.SetParent(logScrollViewContent.transform);
     }
 
@@ -91,21 +98,29 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
         SendString(messageInputField.text);
     }
 
+    public void SignalGameReady()
+    {
+        game3jsStateText.text = Game3jsEvents.GameReady;
+        game3jsStateText.color = Color.yellow;
+        SendEvent(Game3jsEvents.GameReady);
+    }
+
     public void StartGame(string message)
     {
         // game3.js: 
         // Add a StartGame3js method in your Game Manager class that begins the game.
 
-        game3jsStateText.text = "Game Running";
-        game3jsStateText.color = Color.green;
-
-        gameManager.StartGame3js();
-
+        if (game3jsStateText.text == Game3jsEvents.GameReady)
+        {
+            game3jsStateText.text = Game3jsEvents.GameRunning;
+            game3jsStateText.color = Color.green;
+            gameManager.StartGame3js();
+        }
     }
 
     public void GameEndFail()
     {
-        game3jsStateText.text = "Game Stopped";
+        game3jsStateText.text = Game3jsEvents.GameEndFail;
         game3jsStateText.color = Color.red;
 
 
@@ -117,12 +132,24 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
 
     public void GameEndSuccess()
     {
-        game3jsStateText.text = "Game Stopped";
+        game3jsStateText.text = Game3jsEvents.GameEndSuccess;
         game3jsStateText.color = Color.red;
 
         // inform JS that we've finished the game
         SendEvent(Game3jsEvents.GameEndSuccess);
 
+    }
+
+    public void ConnectToServer(string url)
+    {
+        string endpoint = serverUrlInputField.text;
+
+        if (url != "")
+        {
+            endpoint = url;
+        }
+
+        gameServerManager.ConnectToGameServer(endpoint);
     }
 
     public void SetTime(double currentTime)
