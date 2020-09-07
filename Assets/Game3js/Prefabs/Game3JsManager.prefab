@@ -633,7 +633,7 @@ GameObject:
   - component: {fileID: 6497006617490636941}
   - component: {fileID: 6497006617490636938}
   m_Layer: 5
-  m_Name: OutplayStateLabel
+  m_Name: Game3JsStateLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -697,7 +697,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Outplay State:'
+  m_Text: 'Game3js State:'
 --- !u!1 &6497006617668376123
 GameObject:
   m_ObjectHideFlags: 0
@@ -1745,7 +1745,7 @@ GameObject:
   - component: {fileID: 6497006618669228318}
   - component: {fileID: 6497006618669228319}
   m_Layer: 5
-  m_Name: OutplayStateText
+  m_Name: Game3jsStateText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1809,7 +1809,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Game Loaded
+  m_Text: Initializing
 --- !u!1 &6497006618812928572
 GameObject:
   m_ObjectHideFlags: 0
@@ -2329,11 +2329,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
+  gameServerManager: {fileID: 0}
   showDebugControls: 0
   debugControlCanvas: {fileID: 6497006618253317026}
   logScrollViewContent: {fileID: 6497006617729437817}
-  game3jsStateText: {fileID: 0}
+  game3jsStateText: {fileID: 6497006618669228319}
   messageInputField: {fileID: 6497006617668376122}
   levelInputField: {fileID: 0}
   timeInputField: {fileID: 0}
-  gameServerManager: {fileID: 0}

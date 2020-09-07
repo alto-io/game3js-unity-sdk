@@ -13,6 +13,9 @@ class Entity extends Schema {
 class Player extends Entity {
   @type("boolean")
   connected: boolean = true;
+
+  @type("number")
+  score: number = 0;
 }
 
 class Enemy extends Entity {
@@ -39,7 +42,7 @@ export class DemoRoom extends Room {
     console.log("DemoRoom created!", options);
 
     this.setState(new State());
-    this.populateEnemies();
+   // this.populateEnemies();
 
     this.setMetadata({
       str: "hello",
@@ -66,9 +69,14 @@ export class DemoRoom extends Room {
       this.broadcast("hello", { hello: "hello world" });
     });
 
+    this.onMessage("addScore", (client) => {
+      this.state.entities[client.sessionId].score += 1;
+    })
+
     this.onMessage("*", (client, type, message) => {
       console.log(`received message "${type}" from ${client.sessionId}:`, message);
     });
+    
   }
 
   async onAuth (client, options) {

@@ -2020,6 +2020,11 @@ PrefabInstance:
       propertyPath: gameServerManager
       value: 
       objectReference: {fileID: 624656039}
+    - target: {fileID: 6954066561584142822, guid: 9136ff6889ab1824f83e61d77e5f70ce,
+        type: 3}
+      propertyPath: showDebugControls
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6497006618812928575, guid: 9136ff6889ab1824f83e61d77e5f70ce,
         type: 3}
       propertyPath: m_AnchorMax.x

@@ -1,11 +1,24 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using UnityEngine.UI;
+
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using UnityEngine;
-using UnityEngine.UI;
+
+using System.Threading;
+using System.Threading.Tasks;
+
+using Colyseus;
+using Colyseus.Schema;
+
+using GameDevWare.Serialization;
 
 public class FlappyColyseusGameServerManager : GameServerManager
 {
+
+    protected Client client;
+    protected Room<State> room;
+
     // Start is called before the first frame update
     void Start()
     {

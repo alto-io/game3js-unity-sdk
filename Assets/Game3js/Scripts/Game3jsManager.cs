@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 
 public class Game3jsManager : SceneSingleton<Game3jsManager>
 {
@@ -14,7 +15,7 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
     public Canvas debugControlCanvas;
 
     public GameObject logScrollViewContent;
-    public GameObject game3jsStateText;
+    public Text game3jsStateText;
 
     public InputField messageInputField;
     public InputField levelInputField;
@@ -35,10 +36,17 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
     [DllImport("__Internal")]
     private static extern void SendEvent(string message);
 
-  
+
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
+
+        while (!SplashScreen.isFinished)
+        {
+            yield return null;
+        }
+        Debug.Log("Finished showing splash screen");
+
         this.debugControlCanvas.enabled = showDebugControls;
 
         // disable key input to allow login / register functionality
@@ -52,9 +60,12 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
         }
 #endif
 
-        if (gameServerManager.ConnectToGameServer()) // once gameServer is initialized,
-            // inform web app that sdk is ready
+        if (gameServerManager == null || gameServerManager.ConnectToGameServer())
+        {
+            game3jsStateText.text = "Game Ready";
+            game3jsStateText.color = Color.yellow;
             SendEvent(Game3jsEvents.GameReady);
+        }
     }
 
 
@@ -85,19 +96,33 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
         // game3.js: 
         // Add a StartGame3js method in your Game Manager class that begins the game.
 
+        game3jsStateText.text = "Game Running";
+        game3jsStateText.color = Color.green;
+
         gameManager.StartGame3js();
+
     }
 
     public void GameEndFail()
     {
+        game3jsStateText.text = "Game Stopped";
+        game3jsStateText.color = Color.red;
+
+
         // inform JS that we've finished the game
         SendEvent(Game3jsEvents.GameEndFail);
+
+     
     }
 
     public void GameEndSuccess()
     {
+        game3jsStateText.text = "Game Stopped";
+        game3jsStateText.color = Color.red;
+
         // inform JS that we've finished the game
         SendEvent(Game3jsEvents.GameEndSuccess);
+
     }
 
     public void SetTime(double currentTime)
