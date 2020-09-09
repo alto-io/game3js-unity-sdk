@@ -9,5 +9,10 @@
   },
   SendString: function(message) {
     ReactUnityWebGL.SendString(UTF8ToString(message));
-  }
+  },
+
+  SendScore: function(number) {
+    ReactUnityWebGL.SendScore(number);
+  },
+
 });
