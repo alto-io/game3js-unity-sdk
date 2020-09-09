@@ -39,6 +39,9 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
     [DllImport("__Internal")]
     private static extern void SendEvent(string message);
 
+    [DllImport("__Internal")]
+    private static extern void SendScore(int score);
+
 
     // Start is called before the first frame update
     IEnumerator Start()
@@ -125,17 +128,19 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
 
 
         // inform JS that we've finished the game
+        SendScore(0);
         SendEvent(Game3jsEvents.GameEndFail);
 
      
     }
 
-    public void GameEndSuccess()
+    public void GameEndSuccess(int score)
     {
         game3jsStateText.text = Game3jsEvents.GameEndSuccess;
         game3jsStateText.color = Color.red;
 
         // inform JS that we've finished the game
+        SendScore(score);
         SendEvent(Game3jsEvents.GameEndSuccess);
 
     }

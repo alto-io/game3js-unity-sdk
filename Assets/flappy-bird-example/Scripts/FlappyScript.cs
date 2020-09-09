@@ -60,13 +60,13 @@ public class FlappyScript : UnityGameStateManager
     {
         if (usingGame3js)
         {
-            StopGame3jsFail();
+            StopGame3jsSuccess(ScoreManagerScript.Score);
         }
     }
 
-    public override void StopGame3jsSuccess()
+    public override void StopGame3jsSuccess(int score)
     {
-        Game3jsManager.Instance.GameEndSuccess();
+        Game3jsManager.Instance.GameEndSuccess(score);
     }
 
     public override void StopGame3jsFail()

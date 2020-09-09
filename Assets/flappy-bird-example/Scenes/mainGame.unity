@@ -192,18 +192,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.71, y: 0.6}
   m_EdgeRadius: 0
---- !u!114 &624656039 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1418397435473885109, guid: 623bc6d2d198d904083249d5e75121f9,
-    type: 3}
-  m_PrefabInstance: {fileID: 7012341490961316192}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c65d8a28a4e9ae14cbbf714dbe43cedc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &659928299
 GameObject:
   m_ObjectHideFlags: 0
@@ -2019,7 +2007,12 @@ PrefabInstance:
         type: 3}
       propertyPath: gameServerManager
       value: 
-      objectReference: {fileID: 624656039}
+      objectReference: {fileID: 0}
+    - target: {fileID: 2764956417337923715, guid: 9136ff6889ab1824f83e61d77e5f70ce,
+        type: 3}
+      propertyPath: showDebugControls
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2086528506720473946, guid: 9136ff6889ab1824f83e61d77e5f70ce,
         type: 3}
       propertyPath: m_AnchorMax.x
