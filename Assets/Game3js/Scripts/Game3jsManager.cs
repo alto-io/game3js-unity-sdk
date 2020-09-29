@@ -22,7 +22,6 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
     public InputField levelInputField;
     public InputField timeInputField;
 
-
     struct Game3jsEvents
     {
         public const string GameReady = "GameReady";
@@ -46,7 +45,6 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
     // Start is called before the first frame update
     IEnumerator Start()
     {
-
         while (!SplashScreen.isFinished)
         {
             yield return null;
@@ -176,4 +174,5 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
     {
         return levelInputField.text;
     }
+
 }
