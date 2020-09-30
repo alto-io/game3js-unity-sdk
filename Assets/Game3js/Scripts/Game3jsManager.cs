@@ -14,6 +14,9 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
 
     public Canvas debugControlCanvas;
 
+    public bool showScreenControls;
+    public Canvas screenControlsCanvas;
+
     public GameObject logScrollViewContent;
     public Text game3jsStateText;
     public InputField serverUrlInputField;
@@ -52,6 +55,7 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
         Debug.Log("Finished showing splash screen");
 
         this.debugControlCanvas.enabled = showDebugControls;
+        this.screenControlsCanvas.enabled = showScreenControls;
 
         // disable key input to allow login / register functionality
 #if UNITY_WEBGL
@@ -175,4 +179,8 @@ public class Game3jsManager : SceneSingleton<Game3jsManager>
         return levelInputField.text;
     }
 
+    public void SetResolution(int width, int height, bool fullScreen)
+    {
+        Screen.SetResolution(width, height, fullScreen);
+    }
 }
